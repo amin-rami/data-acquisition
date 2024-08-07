@@ -13,15 +13,13 @@ class Parser:
         lines = iter(data.splitlines())
         next(lines)
 
-        DATETIME_INDEX = 0
         parsed_data = []
 
         for line in lines:
-            values = line.split(',')
-            timestamp = values[DATETIME_INDEX]
-            del values[DATETIME_INDEX]
-            value = ','.join(values)
-            row = {"timestamp": timestamp, "value": value}
+            items = line.split(',')
+            items = [x.strip() for x in items]
+            timestamp, sensor_id, value = items
+            row = {"timestamp": timestamp, "sensor_id": sensor_id, "value": value}
             parsed_data.append(row)
         return parsed_data
 
