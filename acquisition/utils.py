@@ -7,7 +7,7 @@ class Parser:
     @staticmethod
     def xml_parser(data):
         return xmltodict.parse(data)
-    
+
     @staticmethod
     def csv_parser(data):
         lines = iter(data.splitlines())
