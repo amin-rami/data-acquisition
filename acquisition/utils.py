@@ -5,8 +5,21 @@ import json
 
 class Parser:
     @staticmethod
+    def parse(content_type, data):
+        if content_type == 'application/xml':
+            return Parser.xml_parser(data)
+        elif content_type == 'text/csv':
+            return Parser.csv_parser(data)
+        elif content_type == 'text/yaml':
+            return Parser.yaml_parser(data)
+        elif content_type == 'application/json':
+            return Parser.json_parser(data)
+        else:
+            return None
+
+    @staticmethod
     def xml_parser(data):
-        return xmltodict.parse(data)
+        return xmltodict.parse(data)["root"]["data"]
 
     @staticmethod
     def csv_parser(data):

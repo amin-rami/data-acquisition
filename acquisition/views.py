@@ -15,15 +15,9 @@ class SensorDataList(APIView):
 
     def post(self, request):
         data = request.body.decode()
-        if request.content_type == 'application/xml':
-            data = Parser.xml_parser(data)
-            data = data['root']['data']
-        elif request.content_type == 'text/csv':
-            data = Parser.csv_parser(data)
-        elif request.content_type == 'text/yaml':
-            data = Parser.yaml_parser(data)
-        elif request.content_type == 'application/json':
-            data = Parser.json_parser(data)
+        data = Parser.parse(request.content_type, data)
+        if data is None:
+            return Response(data={"message": "unsupported content-type"}, status=status.HTTP_400_BAD_REQUEST)
 
         serializer = SensorDataSerializer(data=data, many=(type(data) is list))
         serializer.is_valid(raise_exception=True)
