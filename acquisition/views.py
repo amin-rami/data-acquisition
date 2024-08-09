@@ -5,6 +5,8 @@ from rest_framework import status
 from acquisition.models import SensorData
 from acquisition.serializers import SensorDataSerializer
 from acquisition.utils import Parser
+from acquisition.dependencies import MessageBrokerType, get_message_broker
+from datagateway.settings import SENSORDATA_TOPIC
 
 
 class SensorDataList(APIView):
@@ -19,8 +21,11 @@ class SensorDataList(APIView):
         if data is None:
             return Response(data={"message": "unsupported content-type"}, status=status.HTTP_400_BAD_REQUEST)
 
-        data = [data, ] if type(data) is dict else data
         serializer = SensorDataSerializer(data=data, many=True)
         serializer.is_valid(raise_exception=True)
         serializer.save()
+
+        message_broker = get_message_broker(MessageBrokerType.KAFKA)
+        message_broker.send(serializer.data, SENSORDATA_TOPIC)
+
         return Response(data=serializer.data, status=status.HTTP_201_CREATED)
