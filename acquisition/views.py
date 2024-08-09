@@ -20,7 +20,7 @@ class SensorDataList(APIView):
             return Response(data={"message": "unsupported content-type"}, status=status.HTTP_400_BAD_REQUEST)
 
         data = [data, ] if type(data) is dict else data
-        serializer = SensorDataSerializer(data=data)
+        serializer = SensorDataSerializer(data=data, many=True)
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return Response(data=serializer.data, status=status.HTTP_201_CREATED)
