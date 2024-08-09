@@ -29,6 +29,8 @@ class Parser:
         parsed_data = []
 
         for line in lines:
+            if line.strip() == "":
+                continue
             items = line.split(',')
             items = [x.strip() for x in items]
             timestamp, sensor_id, value = items
