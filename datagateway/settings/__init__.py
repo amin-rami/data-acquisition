@@ -1,2 +1,2 @@
-from .settings import *
-from .third_party import *
+from .settings import *  # noqa
+from .third_party import *  # noqa
