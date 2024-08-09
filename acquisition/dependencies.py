@@ -8,6 +8,7 @@ from datagateway.settings import KAFKA_BOOTSTRAP_SERVERS
 class MessageBrokerType(Enum):
     KAFKA = 1
     RABBITMQ = 2
+    MOCKBROKER = 3
 
 
 class KafkaBroker:
