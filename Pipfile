@@ -16,6 +16,7 @@ sqlparse = "==0.5.1"
 typing-extensions = "==4.12.2"
 xmltodict = "==0.13.0"
 zipp = "==3.19.2"
+kafka-python = "*"
 
 [dev-packages]
 flake8 = "*"
