@@ -6,16 +6,25 @@ import json
 class Parser:
     @staticmethod
     def parse(content_type, data):
-        if content_type == 'application/xml':
-            return Parser.xml_parser(data)
-        elif content_type == 'text/csv':
-            return Parser.csv_parser(data)
-        elif content_type == 'text/yaml':
-            return Parser.yaml_parser(data)
-        elif content_type == 'application/json':
-            return Parser.json_parser(data)
-        else:
+        supported_types = [
+            'application/json',
+            'application/xml',
+            'text/csv',
+            'text/yaml',
+        ]
+        if content_type not in supported_types:
             return None
+        if content_type == 'application/xml':
+            parsed_data = Parser.xml_parser(data)
+        elif content_type == 'text/csv':
+            parsed_data = Parser.csv_parser(data)
+        elif content_type == 'text/yaml':
+            parsed_data = Parser.yaml_parser(data)
+        elif content_type == 'application/json':
+            parsed_data = Parser.json_parser(data)
+
+        parsed_data = [parsed_data, ] if type(parsed_data) is dict else parsed_data
+        return parsed_data
 
     @staticmethod
     def xml_parser(data):
